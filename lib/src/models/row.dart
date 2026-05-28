@@ -45,7 +45,18 @@ class Row implements Model {
       $createdAt: map['\$createdAt'].toString(),
       $updatedAt: map['\$updatedAt'].toString(),
       $permissions: List.from(map['\$permissions'] ?? []),
-      data: Map<String, dynamic>.from(map["data"] ?? {}),
+      data: map.containsKey('data')
+          ? Map<String, dynamic>.from(map['data'])
+          : Map<String, dynamic>.from(map)
+        ..removeWhere((key, _) => const [
+              '\$id',
+              '\$sequence',
+              '\$tableId',
+              '\$databaseId',
+              '\$createdAt',
+              '\$updatedAt',
+              '\$permissions',
+            ].contains(key)),
     );
   }
 
